@@ -40,4 +40,13 @@
   --mint-btn: hsl(160, 100%, 61%);
   --mint-btn-hover: hsl(160, 100%, 52%);
   --mint-btn-active: hsl(160, 100%, 45%);
+
+  --thumbnail-bg-1: hsl(210, 18%, 80%);
+  --thumbnail-bg-2: hsl(351, 70%, 88%);
+  --thumbnail-bg-3: hsl(170, 48%, 81%);
+  --thumbnail-bg-4: hsl(216, 67%, 87%);
+  --level-bg-1: hsl(210, 10%, 41%);
+  --level-bg-2: hsl(350, 75%, 60%);
+  --level-bg-3: hsl(170, 52%, 44%);
+  --level-bg-4: hsl(216, 64%, 53%);
 }

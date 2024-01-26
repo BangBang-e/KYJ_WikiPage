@@ -13,6 +13,10 @@ interface WikiListProps {
   setSelectedWikis: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
+interface TagProps {
+  $tag: string;
+}
+
 function WikiList({ jsonData, currentData, selectedWikis, setSelectedWikis }: WikiListProps) {
   const navigate = useNavigate();
 
@@ -39,10 +43,10 @@ function WikiList({ jsonData, currentData, selectedWikis, setSelectedWikis }: Wi
           <UlItems>
             {currentData.map((item) => (
               <LiItem key={item.id}>
-                <Thumbnail onClick={() => onClickContent(item)}>
+                <Thumbnail onClick={() => onClickContent(item)} $tag={item.tag}>
                   <WikiTitle>{item.title}</WikiTitle>
                   <WikiLevel>
-                    <Level>{item.level}</Level>
+                    <Level $tag={item.tag}>{item.level}</Level>
                   </WikiLevel>
                 </Thumbnail>
                 <Info>
@@ -103,16 +107,28 @@ const LiItem = styled.li`
   width: 100%;
   height: 18%;
 `;
-const Thumbnail = styled.div`
+const Thumbnail = styled.div<TagProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 55%;
   height: 100%;
   border-radius: 8px;
-  background-color: var(--black-200);
+  background-color: ${(props) => getThumbnailColor(props.$tag)};
   cursor: pointer;
 `;
+const getThumbnailColor = (tag: string) => {
+  switch (tag) {
+    case "프로그래밍":
+      return "var(--thumbnail-bg-1)";
+    case "클라우드":
+      return "var(--thumbnail-bg-2)";
+    case "데이터 분석":
+      return "var(--thumbnail-bg-3)";
+    case "인공지능":
+      return "var(--thumbnail-bg-4)";
+  }
+};
 const WikiTitle = styled.span`
   display: flex;
   padding: 0.6rem 2.6rem 0 1rem;
@@ -132,7 +148,7 @@ const WikiLevel = styled.span`
   justify-content: flex-end;
   position: relative;
 `;
-const Level = styled.span`
+const Level = styled.span<TagProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,8 +160,20 @@ const Level = styled.span`
   font-weight: 900;
   color: var(--white);
   border-radius: 8px 0 8px 0;
-  background-color: var(--black-400);
+  background-color: ${(props) => getLevelColor(props.$tag)};
 `;
+const getLevelColor = (tag: string) => {
+  switch (tag) {
+    case "프로그래밍":
+      return "var(--level-bg-1)";
+    case "클라우드":
+      return "var(--level-bg-2)";
+    case "데이터 분석":
+      return "var(--level-bg-3)";
+    case "인공지능":
+      return "var(--level-bg-4)";
+  }
+};
 const Info = styled.div`
   display: flex;
   flex-direction: column;

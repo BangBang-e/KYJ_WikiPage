@@ -80,6 +80,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition: 0.2s;
+  @media (max-width: 768px) {
+    overflow-y: scroll;
+    transition: 0.2s;
+  }
 `;
 const ContentsContainer = styled.div`
   display: flex;

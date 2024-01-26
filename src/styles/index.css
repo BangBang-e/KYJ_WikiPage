@@ -8,6 +8,10 @@
   scrollbar-width: none;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 /* color */
 :root {
   --white: hsl(0, 0%, 100%);
@@ -28,4 +32,12 @@
   --black-750: hsl(210, 8%, 20%);
   --black-800: hsl(210, 8%, 15%);
   --black-900: hsl(210, 8%, 5%);
+
+  --checkbox: hsl(217, 51%, 49%);
+  --blue-btn: hsl(217, 100%, 61%);
+  --blue-btn-hover: hsl(217, 100%, 52%);
+  --blue-btn-active: hsl(217, 100%, 45%);
+  --mint-btn: hsl(160, 100%, 61%);
+  --mint-btn-hover: hsl(160, 100%, 52%);
+  --mint-btn-active: hsl(160, 100%, 45%);
 }

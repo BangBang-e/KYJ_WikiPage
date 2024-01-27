@@ -4,20 +4,17 @@ import { useNavigate } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 import FilterController from "./FilterController";
 import { RxRocket } from "react-icons/rx";
-import { WikiData } from "../utils/types";
+import { WikiData, TagProps } from "../utils/types";
 
 interface WikiListProps {
-  jsonData: WikiData[];
+  filteredData: WikiData[];
   currentData: WikiData[];
   selectedWikis: number[];
   setSelectedWikis: React.Dispatch<React.SetStateAction<number[]>>;
+  selectedTag: string;
 }
 
-interface TagProps {
-  $tag: string;
-}
-
-function WikiList({ jsonData, currentData, selectedWikis, setSelectedWikis }: WikiListProps) {
+function WikiList({ filteredData, currentData, selectedWikis, setSelectedWikis, selectedTag }: WikiListProps) {
   const navigate = useNavigate();
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, wikiId: number) => {
@@ -36,8 +33,8 @@ function WikiList({ jsonData, currentData, selectedWikis, setSelectedWikis }: Wi
 
   return (
     <ListContainer>
-      <Breadcrumb />
-      <FilterController jsonData={jsonData} />
+      <Breadcrumb selectedTag={selectedTag} />
+      <FilterController filteredData={filteredData} />
       <List>
         {currentData.length ? (
           <UlItems>
@@ -82,17 +79,30 @@ export default WikiList;
 const ListContainer = styled.section`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  position: absolute;
+  overflow-y: scroll;
+  margin-left: 17rem;
+  width: 82%;
   height: 100%;
+  z-index: 0;
+  transition: 0.2s;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 55px;
+    width: 100%;
+    transition: 0.2s;
+  }
 `;
 const List = styled.article`
   display: flex;
   flex-direction: column;
+  margin-top: 160px;
   padding: 0.5rem 5rem 1rem 2rem;
   width: 100%;
   height: 100%;
   transition: 0.2s;
   @media (max-width: 768px) {
+    margin-top: 120px;
     padding: 0.5rem 2rem 1rem 2rem;
     transition: 0.2s;
   }
@@ -111,7 +121,7 @@ const Thumbnail = styled.div<TagProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 55%;
+  width: 45%;
   height: 100%;
   border-radius: 8px;
   background-color: ${(props) => getThumbnailColor(props.$tag)};
@@ -135,6 +145,9 @@ const WikiTitle = styled.span`
   font-size: 1.5rem;
   font-weight: 800;
   line-height: 1.8rem;
+  overflow-y: hidden;
+  white-space: normal;
+  word-break: keep-all;
   transition: 0.2s;
   @media (max-width: 768px) {
     padding: 0.3rem 1rem 0 0.5rem;
@@ -161,6 +174,13 @@ const Level = styled.span<TagProps>`
   color: var(--white);
   border-radius: 8px 0 8px 0;
   background-color: ${(props) => getLevelColor(props.$tag)};
+  transition: 0.2s;
+  @media (max-width: 768px) {
+    width: 50px;
+    height: 22px;
+    font-size: 0.9rem;
+    transition: 0.2s;
+  }
 `;
 const getLevelColor = (tag: string) => {
   switch (tag) {
@@ -179,7 +199,7 @@ const Info = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 0.4rem 1.6rem 0.2rem 1.6rem;
-  width: 45%;
+  width: 55%;
   height: 100%;
 `;
 const WikiTag = styled.span`
@@ -195,7 +215,11 @@ const WikiTag = styled.span`
   background-color: var(--black-050);
 `;
 const WikiSubTitle = styled.span`
-  margin: 0 0 0.2rem 0.6rem;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0.4rem 0 0.4rem 0.6rem;
   font-size: 1rem;
 `;
 const WikiDate = styled.span`
@@ -203,6 +227,8 @@ const WikiDate = styled.span`
   justify-content: flex-end;
   align-items: center;
   padding-bottom: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--black-400);

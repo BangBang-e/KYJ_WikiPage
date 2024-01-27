@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-function LevelSelect() {
+function LevelFilter() {
   return (
     <SelectContainer>
-      <option key="none" value="">
-        선택안함
+      <option key="all" value="">
+        모든 레벨
       </option>
       <option key="easy" value="초급">
         초급
@@ -20,7 +20,7 @@ function LevelSelect() {
   );
 }
 
-export default LevelSelect;
+export default LevelFilter;
 
 const SelectContainer = styled.select`
   margin: 0;

@@ -27,6 +27,8 @@ class MockApi {
     }
   }
 
+  //* CREATE api
+
   //* READ api
   async get(): Promise<ApiResponse<WikiData[]>> {
     const result: ApiResponse<WikiData[]> = {
@@ -44,6 +46,10 @@ class MockApi {
       return result;
     }
   }
+
+  //* UPDATE api
+
+  //* DELETE api
 }
 
 export default MockApi;

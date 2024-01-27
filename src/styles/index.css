@@ -37,9 +37,9 @@
   --blue-btn: hsl(217, 100%, 61%);
   --blue-btn-hover: hsl(217, 100%, 52%);
   --blue-btn-active: hsl(217, 100%, 45%);
-  --mint-btn: hsl(160, 100%, 61%);
-  --mint-btn-hover: hsl(160, 100%, 52%);
-  --mint-btn-active: hsl(160, 100%, 45%);
+  --mint-btn: hsl(181, 74%, 46%);
+  --mint-btn-hover: hsl(181, 87%, 39%);
+  --mint-btn-active: hsl(181, 94%, 33%);
 
   --thumbnail-bg-1: hsl(210, 18%, 80%);
   --thumbnail-bg-2: hsl(351, 70%, 88%);

@@ -17,3 +17,7 @@ export interface WikiData {
 export interface Database {
   wikiData: WikiData[];
 }
+
+export interface TagProps {
+  $tag: string;
+}

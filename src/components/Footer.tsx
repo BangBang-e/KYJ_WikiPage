@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { WikiData } from "../utils/types";
 
 interface FooterProps {
-  jsonData: WikiData[];
+  filteredData: WikiData[];
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   ITEMS_PER_PAGE: number;
@@ -14,7 +14,7 @@ interface FooterProps {
   setSelectedWikis: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-function Footer({ jsonData, page, setPage, ITEMS_PER_PAGE, selectedWikis, setSelectedWikis }: FooterProps) {
+function Footer({ filteredData, page, setPage, ITEMS_PER_PAGE, selectedWikis, setSelectedWikis }: FooterProps) {
   const navigate = useNavigate();
 
   const handlePageChange = (event: ChangeEvent<unknown>, newPage: number) => {
@@ -22,14 +22,15 @@ function Footer({ jsonData, page, setPage, ITEMS_PER_PAGE, selectedWikis, setSel
     setSelectedWikis([]);
   };
 
-  const onClickAdd = () => {
-    navigate(`/WikiAdd`);
+  const onClickMoveToAdd = () => {
+    navigate(`/wikiAdd`);
+    setSelectedWikis([]);
   };
 
   return (
     <FooterContainer>
       <ButtonContainer>
-        <Button className="blue" onClick={onClickAdd}>
+        <Button className="blue" onClick={onClickMoveToAdd}>
           작성
         </Button>
         <Button
@@ -42,7 +43,7 @@ function Footer({ jsonData, page, setPage, ITEMS_PER_PAGE, selectedWikis, setSel
       <PaginationContainer>
         <Stack>
           <Pagination
-            count={Math.ceil(jsonData.length / ITEMS_PER_PAGE)}
+            count={Math.ceil(filteredData.length / ITEMS_PER_PAGE)}
             page={page}
             onChange={handlePageChange}
             shape="rounded"
@@ -71,6 +72,7 @@ const FooterContainer = styled.footer`
   height: 130px;
   border-top: 1.4px solid var(--black-075);
   background-color: var(--black-050);
+  z-index: 20;
 `;
 const ButtonContainer = styled.div`
   margin-bottom: 15px;

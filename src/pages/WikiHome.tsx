@@ -13,10 +13,13 @@ function WikiHome() {
   const [jsonData, setJsonData] = useState<WikiData[]>([]);
   const [page, setPage] = useState(1);
   const [selectedWikis, setSelectedWikis] = useState<number[]>([]);
+  const [selectedTag, setSelectedTag] = useState("전체 위키");
+
+  const filteredData = selectedTag === "전체 위키" ? jsonData : jsonData.filter((item) => item.tag === selectedTag);
 
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentData = jsonData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   useEffect(() => {
     fetchData();
@@ -43,9 +46,13 @@ function WikiHome() {
     const formattedData = data.map((wiki) => {
       const dateParts = wiki.date.split(/[-T:Z]/);
       const formattedDate = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]} ${dateParts[3]}:${dateParts[4]}`;
+
+      const editDateParts = wiki.editDate.split(/[-T:Z]/);
+      const formattedEditDate = `${editDateParts[0]}-${editDateParts[1]}-${editDateParts[2]} ${editDateParts[3]}:${editDateParts[4]}`;
       return {
         ...wiki,
         date: formattedDate,
+        editDate: formattedEditDate,
       };
     });
     return formattedData;
@@ -54,16 +61,17 @@ function WikiHome() {
   return (
     <Container>
       <ContentsContainer>
-        <Sidebar />
+        <Sidebar setPage={setPage} setSelectedTag={setSelectedTag} />
         <WikiList
-          jsonData={jsonData}
+          filteredData={filteredData}
           currentData={currentData}
           selectedWikis={selectedWikis}
           setSelectedWikis={setSelectedWikis}
+          selectedTag={selectedTag}
         />
       </ContentsContainer>
       <Footer
-        jsonData={jsonData}
+        filteredData={filteredData}
         page={page}
         setPage={setPage}
         ITEMS_PER_PAGE={ITEMS_PER_PAGE}
@@ -80,17 +88,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: 0.2s;
-  @media (max-width: 768px) {
-    overflow-y: scroll;
-    transition: 0.2s;
-  }
 `;
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  position: relative;
   margin-bottom: 130px;
   height: 100%;
+  overflow-y: scroll;
   transition: 0.2s;
   @media (max-width: 768px) {
     flex-direction: column;

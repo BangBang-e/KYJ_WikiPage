@@ -18,6 +18,14 @@ export interface Database {
   wikiData: WikiData[];
 }
 
+export interface PostData {
+  title: string;
+  subTitle: string;
+  content: string;
+  tag: string;
+  level: string;
+}
+
 export interface TagProps {
   $tag: string;
 }

@@ -4,7 +4,7 @@ import Layout from "./components/Layout";
 import WikiHome from "./pages/WikiHome";
 import WikiAdd from "./pages/WikiAdd";
 import WikiDetail from "./pages/WikiDetail";
-import WikiUpdate from "./pages/WikiUpdate";
+import WikiEdit from "./pages/WikiEdit";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route index element={<WikiHome />} />
         <Route path="/wikiAdd" element={<WikiAdd />} />
         <Route path="/wikiDetail" element={<WikiDetail />} />
-        <Route path="/wikiUpdate" element={<WikiUpdate />} />
+        <Route path="/wikiEdit" element={<WikiEdit />} />
       </Route>
     </Routes>
   );

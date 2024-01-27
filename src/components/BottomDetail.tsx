@@ -1,32 +1,67 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { PostData } from "../utils/types";
+import MockApi from "../utils/mockApi";
+const mockApi = new MockApi();
 
 interface BottomDetailProps {
   pageType: string;
+  postData: PostData;
+  setPostData: React.Dispatch<React.SetStateAction<PostData>>;
 }
 
-function BottomDetail({ pageType }: BottomDetailProps) {
+function BottomDetail({ pageType, postData, setPostData }: BottomDetailProps) {
   const navigate = useNavigate();
 
-  const onClickCancle = () => {
+  const onClickCancel = () => {
     navigate(-1);
+  };
+
+  const handleAddData = async () => {
+    if (
+      !postData.title.trim() ||
+      !postData.subTitle.trim() ||
+      !postData.content.trim() ||
+      !postData.tag.trim() ||
+      !postData.level.trim()
+    ) {
+      alert("게시물의 제목과 내용을 모두 작성해 주세요.");
+      return;
+    }
+
+    try {
+      const response = await mockApi.post({
+        title: postData.title,
+        subTitle: postData.subTitle,
+        content: postData.content,
+        tag: postData.tag,
+        level: postData.level,
+      });
+
+      if (response.data) {
+        setPostData(response.data);
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (
     <BottomContainer>
       <ButtonContainer>
         {pageType === "addPage" && (
-          <Button className="blue" onClick={onClickCancle}>
+          <Button className="blue" onClick={handleAddData}>
             등록
           </Button>
         )}
         {pageType === "updatePage" && (
-          <Button className="mint" onClick={onClickCancle}>
+          <Button className="mint" onClick={onClickCancel}>
             저장
           </Button>
         )}
-        <Button onClick={onClickCancle}>취소</Button>
+        <Button onClick={onClickCancel}>취소</Button>
       </ButtonContainer>
     </BottomContainer>
   );

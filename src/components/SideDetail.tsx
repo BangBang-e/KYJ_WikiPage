@@ -28,7 +28,7 @@ function SideDetail({ wikiData }: SideProps) {
   };
 
   const onClickMoveToUpdate = () => {
-    navigate(`/wikiUpdate`);
+    navigate(`/wikiEdit`);
   };
 
   return (
@@ -36,7 +36,9 @@ function SideDetail({ wikiData }: SideProps) {
       <WikiTag>{wikiData.tag}</WikiTag>
       <WikiTitle>{wikiData.title}</WikiTitle>
       <WikiDate>{`${wikiData.date} 에 작성됨`}</WikiDate>
-      <WikiDate className="editDate">{`▹ ${wikiData.editDate} 에 수정됨`}</WikiDate>
+      {wikiData.date !== wikiData.editDate ? (
+        <WikiDate className="editDate">{`▹ ${wikiData.editDate} 에 수정됨`}</WikiDate>
+      ) : null}
       <ButtonContainer>
         <ButtonRow>
           <Button onClick={onClickShare}>
@@ -68,8 +70,7 @@ const SideContainer = styled.aside`
   display: flex;
   flex-direction: column;
   padding: 1.8rem;
-  width: 700px;
-  height: 320px;
+  /* height: 100%; */
   border-radius: 10px;
   border: 1.4px solid var(--black-075);
   background-color: var(--white);

@@ -1,24 +1,64 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import { Editor } from "@toast-ui/react-editor";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import FormAdd from "../components/FormAdd";
 import BottomDetail from "../components/BottomDetail";
 
+const initialData = {
+  title: "",
+  subTitle: "",
+  content: "",
+  tag: "",
+  level: "",
+};
+
 function WikiAdd() {
+  const editorRef = useRef<Editor>(null);
+  const [postData, setPostData] = useState(initialData);
+
+  const onChangeConvert = () => {
+    const editorInstance = editorRef.current?.getInstance();
+    if (!editorInstance) return;
+
+    const isWysiwygMode = editorInstance.isViewer() && editorInstance.isMarkdownMode();
+
+    let data: string;
+    if (isWysiwygMode) {
+      //* 위지웍으로 작성 시
+      data = editorInstance.getHTML();
+    } else {
+      //* 마크다운으로 작성 시
+      data = editorInstance.getMarkdown();
+    }
+    setPostData((prevData) => ({
+      ...prevData,
+      content: data,
+    }));
+  };
+
   return (
     <Container>
-      <AddWikiForm>
-        <FormTitle>
-          <WikiTitle></WikiTitle>
-          <WikiSubTitle></WikiSubTitle>
-        </FormTitle>
-        <FormSelect></FormSelect>
-      </AddWikiForm>
-      <ContentsContainer>
-        <TextContainer>
-          <WikiExplain>위키 작성</WikiExplain>
-          <WikiContent></WikiContent>
-        </TextContainer>
-      </ContentsContainer>
-      <BottomDetail pageType="addPage" />
+      <FormAdd postData={postData} setPostData={setPostData} />
+      <EditorContainer>
+        <Editor
+          initialValue={postData.content || " "}
+          previewStyle="tab"
+          height="80%"
+          initialEditType="wysiwyg"
+          useCommandShortcut={false}
+          language="ko-KR"
+          ref={editorRef}
+          onChange={onChangeConvert}
+          plugins={[colorSyntax]}
+        />
+      </EditorContainer>
+      <BottomDetail pageType="addPage" postData={postData} setPostData={setPostData} />
     </Container>
   );
 }
@@ -38,92 +78,8 @@ const Container = styled.section`
     transition: 0.2s;
   }
 `;
-const AddWikiForm = styled.article`
-  display: flex;
+const EditorContainer = styled.div`
+  margin-top: 1rem;
   width: 100%;
-  height: 180px;
-`;
-const FormTitle = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 1rem;
-  width: 80%;
-  height: 180px;
-  border-radius: 16px;
-  border: 1.4px solid var(--black-075);
-`;
-const FormSelect = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 20%;
-  height: 180px;
-  border-radius: 16px;
-  border: 1.4px solid var(--black-075);
-`;
-const WikiTitle = styled.span`
-  display: flex;
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 2.4rem;
-  text-align: center;
-  overflow-y: hidden;
-  white-space: normal;
-  word-break: keep-all;
-  transition: 0.2s;
-  @media (max-width: 768px) {
-    padding: 0.3rem 1rem 0 0.5rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
-    transition: 0.2s;
-  }
-`;
-const ContentsContainer = styled.div`
-  display: flex;
-  position: relative;
-  padding: 2rem 0 2rem 1rem;
   height: 100%;
-  overflow-y: scroll;
-  transition: 0.2s;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    transition: 0.2s;
-  }
-`;
-const TextContainer = styled.article`
-  display: flex;
-  flex-direction: column;
-  margin-right: 1rem;
-  height: 100%;
-  overflow-y: scroll;
-`;
-const WikiSubTitle = styled.span`
-  display: block;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  height: 40px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border-bottom: 1.4px solid var(--black-075);
-`;
-const WikiExplain = styled.span`
-  margin-bottom: 1rem;
-  padding: 0.6rem;
-  font-size: 1.6rem;
-  font-weight: 600;
-  transition: 0.2s;
-  @media (max-width: 768px) {
-    padding: 0.2rem;
-    font-size: 1.2rem;
-    font-weight: 800;
-    transition: 0.2s;
-  }
-`;
-const WikiContent = styled.span`
-  display: flex;
-  padding: 0.8rem;
-  line-height: 1.8rem;
-  white-space: normal;
-  word-break: keep-all;
 `;

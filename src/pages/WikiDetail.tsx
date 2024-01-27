@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
-import SideDetail from "../components/SideDetail";
 import { TagProps } from "../utils/types";
+import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import SideDetail from "../components/SideDetail";
 
 function WikiDetail() {
   const location = useLocation();
@@ -17,10 +19,13 @@ function WikiDetail() {
       <ContentsContainer>
         <TextContainer>
           <WikiSubTitle>{wikiData.subTitle}</WikiSubTitle>
-          <WikiExplain>설명</WikiExplain>
-          <WikiContent>{wikiData.content}</WikiContent>
+          <EditorContainer>
+            <Viewer initialValue={wikiData.content} />
+          </EditorContainer>
         </TextContainer>
-        <SideDetail wikiData={wikiData} />
+        <SideContainer>
+          <SideDetail wikiData={wikiData} />
+        </SideContainer>
       </ContentsContainer>
     </Container>
   );
@@ -116,12 +121,14 @@ const WikiTitle = styled.span`
 const ContentsContainer = styled.div`
   display: flex;
   position: relative;
-  padding: 2rem 0 2rem 1rem;
+  padding: 2rem 0;
+  width: 100%;
   height: 100%;
   overflow-y: scroll;
   transition: 0.2s;
   @media (max-width: 768px) {
     flex-direction: column;
+    padding: 2rem 0 2rem 0;
     transition: 0.2s;
   }
 `;
@@ -129,35 +136,43 @@ const TextContainer = styled.article`
   display: flex;
   flex-direction: column;
   margin-right: 1rem;
+  width: 70%;
   height: 100%;
   overflow-y: scroll;
-`;
-const WikiSubTitle = styled.span`
-  display: block;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  height: 40px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  border-bottom: 1.4px solid var(--black-075);
-`;
-const WikiExplain = styled.span`
-  margin-bottom: 1rem;
-  padding: 0.6rem;
-  font-size: 1.6rem;
-  font-weight: 600;
+  border-radius: 10px;
+  border: 1.4px solid var(--black-075);
+  background-color: var(--white);
   transition: 0.2s;
   @media (max-width: 768px) {
-    padding: 0.2rem;
-    font-size: 1.2rem;
-    font-weight: 800;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    width: 100%;
     transition: 0.2s;
   }
 `;
-const WikiContent = styled.span`
-  display: flex;
-  padding: 0.8rem;
-  line-height: 1.8rem;
-  white-space: normal;
-  word-break: keep-all;
+const SideContainer = styled.article`
+  width: 30%;
+  transition: 0.2s;
+  @media (max-width: 768px) {
+    width: 100%;
+    transition: 0.2s;
+  }
+`;
+const WikiSubTitle = styled.span`
+  display: block;
+  margin-bottom: 0.5rem;
+  padding: 2rem 1.2rem 1rem 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-bottom: 1.4px solid var(--black-075);
+  transition: 0.2s;
+  @media (max-width: 768px) {
+    padding: 1.4rem 1rem 1rem 1rem;
+    transition: 0.2s;
+  }
+`;
+const EditorContainer = styled.div`
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
 `;

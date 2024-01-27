@@ -1,9 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-function LevelSelect() {
+interface SelectProps {
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
+}
+
+function LevelSelect({ onChange }: SelectProps) {
   return (
-    <SelectContainer>
+    <SelectContainer name="level" onChange={onChange}>
       <option key="none" value="">
         레벨 선택
       </option>
@@ -20,9 +24,9 @@ function LevelSelect() {
   );
 }
 
-function TagSelect() {
+function TagSelect({ onChange }: SelectProps) {
   return (
-    <SelectContainer>
+    <SelectContainer name="tag" onChange={onChange}>
       <option key="none" value="">
         태그 선택
       </option>
@@ -42,7 +46,7 @@ function TagSelect() {
   );
 }
 
-export default { LevelSelect, TagSelect };
+export { LevelSelect, TagSelect };
 
 const SelectContainer = styled.select`
   margin: 0;

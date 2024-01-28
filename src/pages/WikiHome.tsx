@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { WikiData } from "../utils/types";
 import Sidebar from "../components/Sidebar";
 import WikiList from "../components/WikiList";
 import Footer from "../components/Footer";
-import { WikiData } from "../utils/types";
 import MockApi from "../utils/mockApi";
 const mockApi = new MockApi();
 
@@ -72,11 +72,12 @@ function WikiHome() {
       </ContentsContainer>
       <Footer
         filteredData={filteredData}
+        setJsonData={setJsonData}
         page={page}
         setPage={setPage}
-        ITEMS_PER_PAGE={ITEMS_PER_PAGE}
         selectedWikis={selectedWikis}
         setSelectedWikis={setSelectedWikis}
+        ITEMS_PER_PAGE={ITEMS_PER_PAGE}
       />
     </Container>
   );

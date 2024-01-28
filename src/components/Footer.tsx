@@ -1,20 +1,31 @@
 import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { WikiData } from "../utils/types";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { WikiData } from "../utils/types";
+import MockApi from "../utils/mockApi";
+const mockApi = new MockApi();
 
 interface FooterProps {
   filteredData: WikiData[];
+  setJsonData: React.Dispatch<React.SetStateAction<WikiData[]>>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  ITEMS_PER_PAGE: number;
   selectedWikis: number[];
   setSelectedWikis: React.Dispatch<React.SetStateAction<number[]>>;
+  ITEMS_PER_PAGE: number;
 }
 
-function Footer({ filteredData, page, setPage, ITEMS_PER_PAGE, selectedWikis, setSelectedWikis }: FooterProps) {
+function Footer({
+  filteredData,
+  setJsonData,
+  page,
+  setPage,
+  selectedWikis,
+  setSelectedWikis,
+  ITEMS_PER_PAGE,
+}: FooterProps) {
   const navigate = useNavigate();
 
   const handlePageChange = (event: ChangeEvent<unknown>, newPage: number) => {
@@ -27,16 +38,25 @@ function Footer({ filteredData, page, setPage, ITEMS_PER_PAGE, selectedWikis, se
     setSelectedWikis([]);
   };
 
+  const handleDeleteData = async () => {
+    try {
+      await mockApi.delete({ idList: selectedWikis });
+      setSelectedWikis([]);
+
+      const refreshData = filteredData.filter((wiki) => !selectedWikis.includes(wiki.id));
+      setJsonData(refreshData);
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
   return (
     <FooterContainer>
       <ButtonContainer>
         <Button className="blue" onClick={onClickMoveToAdd}>
           작성
         </Button>
-        <Button
-          // onClick={}
-          disabled={selectedWikis.length ? false : true}
-        >
+        <Button onClick={handleDeleteData} disabled={selectedWikis.length ? false : true}>
           삭제
         </Button>
       </ButtonContainer>

@@ -5,9 +5,9 @@ interface SelectProps {
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
-function LevelSelect({ onChange }: SelectProps) {
+function LevelSelect({ onChange, value }: SelectProps & { value?: string }) {
   return (
-    <SelectContainer name="level" onChange={onChange}>
+    <SelectContainer name="level" onChange={onChange} value={value}>
       <option key="none" value="">
         레벨 선택
       </option>
@@ -24,9 +24,9 @@ function LevelSelect({ onChange }: SelectProps) {
   );
 }
 
-function TagSelect({ onChange }: SelectProps) {
+function TagSelect({ onChange, value }: SelectProps & { value?: string }) {
   return (
-    <SelectContainer name="tag" onChange={onChange}>
+    <SelectContainer name="tag" onChange={onChange} value={value}>
       <option key="none" value="">
         태그 선택
       </option>

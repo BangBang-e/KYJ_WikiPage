@@ -1,17 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { PostData } from "../utils/types";
+import { PostData, UpdateData } from "../utils/types";
 import MockApi from "../utils/mockApi";
+import { getCurrentDate } from "../utils/utils";
 const mockApi = new MockApi();
 
-interface BottomDetailProps {
+interface BottomProps {
   pageType: string;
-  postData: PostData;
-  setPostData: React.Dispatch<React.SetStateAction<PostData>>;
+  postData?: PostData;
+  setPostData?: React.Dispatch<React.SetStateAction<PostData>>;
+  updateData?: UpdateData;
+  setUpdateData?: React.Dispatch<React.SetStateAction<UpdateData>>;
 }
 
-function BottomDetail({ pageType, postData, setPostData }: BottomDetailProps) {
+function WikiBottom({ pageType, postData, setPostData, updateData, setUpdateData }: BottomProps) {
   const navigate = useNavigate();
 
   const onClickCancel = () => {
@@ -20,6 +23,7 @@ function BottomDetail({ pageType, postData, setPostData }: BottomDetailProps) {
 
   const handleAddData = async () => {
     if (
+      !postData ||
       !postData.title.trim() ||
       !postData.subTitle.trim() ||
       !postData.content.trim() ||
@@ -39,10 +43,41 @@ function BottomDetail({ pageType, postData, setPostData }: BottomDetailProps) {
         level: postData.level,
       });
 
-      if (response.data) {
+      if (response.data && setPostData) {
         setPostData(response.data);
         navigate(-1);
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleUpdateData = async () => {
+    if (
+      !updateData ||
+      !updateData.title.trim() ||
+      !updateData.subTitle.trim() ||
+      !updateData.content.trim() ||
+      !updateData.tag.trim() ||
+      !updateData.level.trim()
+    ) {
+      alert("게시물의 제목과 내용을 모두 작성해 주세요.");
+      return;
+    }
+
+    const finalData = {
+      ...updateData,
+      editDate: getCurrentDate(),
+    };
+
+    try {
+      const response = await mockApi.put(finalData);
+
+      if (response.data && setUpdateData) {
+        setUpdateData(response.data);
+        navigate("/wikiDetail", { state: { item: response.data } });
+      }
+      console.log(finalData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -56,8 +91,8 @@ function BottomDetail({ pageType, postData, setPostData }: BottomDetailProps) {
             등록
           </Button>
         )}
-        {pageType === "updatePage" && (
-          <Button className="mint" onClick={onClickCancel}>
+        {pageType === "editPage" && (
+          <Button className="mint" onClick={handleUpdateData}>
             저장
           </Button>
         )}
@@ -67,7 +102,7 @@ function BottomDetail({ pageType, postData, setPostData }: BottomDetailProps) {
   );
 }
 
-export default BottomDetail;
+export default WikiBottom;
 
 const BottomContainer = styled.footer`
   position: fixed;

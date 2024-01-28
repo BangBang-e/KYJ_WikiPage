@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import LevelFilter from "./LevelFilter";
 import { WikiData } from "../utils/types";
+import LevelFilter from "./LevelFilter";
 
 interface FilterProps {
   filteredData: WikiData[];

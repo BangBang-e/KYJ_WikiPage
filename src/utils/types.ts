@@ -26,6 +26,16 @@ export interface PostData {
   level: string;
 }
 
+export interface UpdateData {
+  id: number;
+  title: string;
+  subTitle: string;
+  content: string;
+  editDate: string;
+  tag: string;
+  level: string;
+}
+
 export interface TagProps {
   $tag: string;
 }

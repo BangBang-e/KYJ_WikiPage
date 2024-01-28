@@ -8,7 +8,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import FormAdd from "../components/FormAdd";
-import BottomDetail from "../components/BottomDetail";
+import WikiBottom from "../components/WikiBottom";
 
 const initialData = {
   title: "",
@@ -58,7 +58,7 @@ function WikiAdd() {
           plugins={[colorSyntax]}
         />
       </EditorContainer>
-      <BottomDetail pageType="addPage" postData={postData} setPostData={setPostData} />
+      <WikiBottom pageType="addPage" postData={postData} setPostData={setPostData} />
     </Container>
   );
 }

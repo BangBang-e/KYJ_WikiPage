@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { PostData } from "../utils/types";
+import { UpdateData } from "../utils/types";
 import { LevelSelect, TagSelect } from "./SelectBox";
-import { PiNotePencil } from "react-icons/pi";
+import { VscTools } from "react-icons/vsc";
 
-interface FormAddProps {
-  postData: PostData;
-  setPostData: React.Dispatch<React.SetStateAction<PostData>>;
+interface FormEditProps {
+  updateData: UpdateData;
+  setUpdateData: React.Dispatch<React.SetStateAction<UpdateData>>;
 }
 
-function FormAdd({ postData, setPostData }: FormAddProps) {
+function FormEdit({ updateData, setUpdateData }: FormEditProps) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setPostData((prevData) => ({
+    setUpdateData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -20,7 +20,7 @@ function FormAdd({ postData, setPostData }: FormAddProps) {
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
-    setPostData((prevData) => ({
+    setUpdateData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -30,8 +30,8 @@ function FormAdd({ postData, setPostData }: FormAddProps) {
     <AddWikiForm>
       <FormTitle>
         <Label>
-          <PiNotePencil style={{ marginRight: "8px" }} />
-          위키 작성
+          <VscTools style={{ marginRight: "8px" }} />
+          위키 수정
         </Label>
         <InputWrapper>
           <Input
@@ -40,7 +40,7 @@ function FormAdd({ postData, setPostData }: FormAddProps) {
             placeholder="제목을 입력해 주세요."
             id="title"
             name="title"
-            value={postData.title || ""}
+            value={updateData.title || ""}
             onChange={handleInputChange}
           />
         </InputWrapper>
@@ -51,22 +51,22 @@ function FormAdd({ postData, setPostData }: FormAddProps) {
             placeholder="게시물에 대한 간략한 설명을 입력해 주세요."
             id="subTitle"
             name="subTitle"
-            value={postData.subTitle || ""}
+            value={updateData.subTitle || ""}
             onChange={handleInputChange}
           />
         </InputWrapper>
       </FormTitle>
       <FormSelect>
-        <Notice>난이도를 선택해 주세요.</Notice>
-        <LevelSelect onChange={handleSelectChange} />
-        <Notice>강의 유형을 선택해 주세요.</Notice>
-        <TagSelect onChange={handleSelectChange} />
+        <Notice>강의 난이도 변경</Notice>
+        <LevelSelect onChange={handleSelectChange} value={updateData.level} />
+        <Notice>강의 유형 변경</Notice>
+        <TagSelect onChange={handleSelectChange} value={updateData.tag} />
       </FormSelect>
     </AddWikiForm>
   );
 }
 
-export default FormAdd;
+export default FormEdit;
 
 const AddWikiForm = styled.article`
   display: flex;

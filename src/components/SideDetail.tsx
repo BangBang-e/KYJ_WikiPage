@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { WikiData } from "../utils/types";
+import { formatISODate } from "../utils/utils";
 import { PiLinkSimpleHorizontal } from "react-icons/pi";
 import { TbArrowBack } from "react-icons/tb";
+import { IoMdReturnRight } from "react-icons/io";
 
 interface SideProps {
   wikiData: WikiData;
@@ -11,6 +13,10 @@ interface SideProps {
 
 function SideDetail({ wikiData }: SideProps) {
   const navigate = useNavigate();
+  const isoPattern = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/;
+
+  const formattedDate = isoPattern.test(wikiData.date) ? formatISODate(wikiData.date) : wikiData.date;
+  const formattedEditDate = isoPattern.test(wikiData.editDate) ? formatISODate(wikiData.editDate) : wikiData.editDate;
 
   const onClickShare = () => {
     navigator.clipboard
@@ -23,21 +29,24 @@ function SideDetail({ wikiData }: SideProps) {
       });
   };
 
-  const onClickCancle = () => {
-    navigate(-1);
+  const onClickCancel = () => {
+    navigate("/");
   };
 
   const onClickMoveToUpdate = () => {
-    navigate(`/wikiEdit`);
+    navigate("/wikiEdit", { state: { item: wikiData } });
   };
 
   return (
     <SideContainer>
       <WikiTag>{wikiData.tag}</WikiTag>
       <WikiTitle>{wikiData.title}</WikiTitle>
-      <WikiDate>{`${wikiData.date} 에 작성됨`}</WikiDate>
+      <WikiDate>{`${formattedDate} 에 작성됨`}</WikiDate>
       {wikiData.date !== wikiData.editDate ? (
-        <WikiDate className="editDate">{`▹ ${wikiData.editDate} 에 수정됨`}</WikiDate>
+        <WikiDate className="editDate">
+          <IoMdReturnRight />
+          {` ${formattedEditDate} 에 수정됨`}
+        </WikiDate>
       ) : null}
       <ButtonContainer>
         <ButtonRow>
@@ -47,7 +56,7 @@ function SideDetail({ wikiData }: SideProps) {
             </IconWrapper>
             공유
           </Button>
-          <Button className="black" onClick={onClickCancle}>
+          <Button className="black" onClick={onClickCancel}>
             <IconWrapper>
               <TbArrowBack />
             </IconWrapper>
@@ -129,6 +138,7 @@ const WikiDate = styled.span`
   }
   &.editDate {
     color: var(--black-300);
+    font-weight: 400;
   }
 `;
 const ButtonContainer = styled.div`

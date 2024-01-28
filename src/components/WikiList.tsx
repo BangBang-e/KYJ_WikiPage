@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { WikiData, TagProps } from "../utils/types";
 import Breadcrumb from "./Breadcrumb";
 import FilterController from "./FilterController";
 import { RxRocket } from "react-icons/rx";
-import { WikiData, TagProps } from "../utils/types";
 
 interface WikiListProps {
   filteredData: WikiData[];

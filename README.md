@@ -56,7 +56,7 @@ https://github.com/BangBang-e/KYJ_WikiPage/assets/107192580/c8b26ddb-3160-4049-a
 
 <br/>
 
-- 메인페이지에서 특정 위키의 '체크박스'로 선택 후 '삭제 버큰'을 누르면 위키를 삭제할 수 있는 기능
+- 메인페이지에서 특정 위키의 '체크박스'로 선택 후 '삭제 버튼'을 누르면 위키를 삭제할 수 있는 기능
 
 https://github.com/BangBang-e/KYJ_WikiPage/assets/107192580/6a5a3709-3fa5-465e-b1f7-fd6f699deeca
 

@@ -109,10 +109,10 @@ const Button = styled.button`
   background-color: var(--black-025);
   cursor: pointer;
   &:hover {
-    background-color: var(--black-075);
+    background-color: var(--black-050);
   }
   &:active {
-    background-color: var(--black-100);
+    background-color: var(--black-075);
   }
   &.blue {
     margin-right: 10px;

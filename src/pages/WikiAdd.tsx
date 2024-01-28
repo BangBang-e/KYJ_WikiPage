@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import { onChangeEditor } from "../utils/utils";
 import { Editor } from "@toast-ui/react-editor";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import "tui-color-picker/dist/tui-color-picker.css";
@@ -24,22 +25,7 @@ function WikiAdd() {
 
   const onChangeConvert = () => {
     const editorInstance = editorRef.current?.getInstance();
-    if (!editorInstance) return;
-
-    const isWysiwygMode = editorInstance.isViewer() && editorInstance.isMarkdownMode();
-
-    let data: string;
-    if (isWysiwygMode) {
-      //* 위지웍으로 작성 시
-      data = editorInstance.getHTML();
-    } else {
-      //* 마크다운으로 작성 시
-      data = editorInstance.getMarkdown();
-    }
-    setPostData((prevData) => ({
-      ...prevData,
-      content: data,
-    }));
+    onChangeEditor(editorInstance, setPostData);
   };
 
   return (

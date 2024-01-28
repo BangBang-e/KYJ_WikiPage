@@ -79,7 +79,6 @@ const SideContainer = styled.aside`
   display: flex;
   flex-direction: column;
   padding: 1.8rem;
-  /* height: 100%; */
   border-radius: 10px;
   border: 1.4px solid var(--black-075);
   background-color: var(--white);
@@ -89,6 +88,10 @@ const SideContainer = styled.aside`
     padding: 1rem 6rem;
     width: 100%;
     height: 120px;
+    transition: 0.2s;
+  }
+  @media (max-width: 480px) {
+    padding: 1rem;
     transition: 0.2s;
   }
 `;

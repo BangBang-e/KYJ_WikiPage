@@ -77,7 +77,6 @@ function WikiBottom({ pageType, postData, setPostData, updateData, setUpdateData
         setUpdateData(response.data);
         navigate("/wikiDetail", { state: { item: response.data } });
       }
-      console.log(finalData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -115,7 +114,7 @@ const BottomContainer = styled.footer`
   width: 100%;
   height: 80px;
   border-top: 1.4px solid var(--black-075);
-  background-color: var(--black-050);
+  background-color: var(--black-025);
   z-index: 20;
 `;
 const ButtonContainer = styled.div`
@@ -128,13 +127,13 @@ const Button = styled.button`
   font-size: 1.1rem;
   border-radius: 4px;
   border: 1.6px solid var(--black-150);
-  background-color: var(--black-050);
+  background-color: var(--black-025);
   cursor: pointer;
   &:hover {
-    background-color: var(--black-075);
+    background-color: var(--black-050);
   }
   &:active {
-    background-color: var(--black-100);
+    background-color: var(--black-075);
   }
   &.mint {
     margin-right: 10px;

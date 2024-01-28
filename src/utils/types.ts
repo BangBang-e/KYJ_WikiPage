@@ -36,6 +36,23 @@ export interface UpdateData {
   level: string;
 }
 
+export interface EditorData {
+  id?: number;
+  title: string;
+  subTitle: string;
+  content: string;
+  editDate?: string;
+  tag: string;
+  level: string;
+}
+
+export interface EditorMethods {
+  isViewer: () => boolean;
+  isMarkdownMode: () => boolean;
+  getHTML: () => string;
+  getMarkdown: () => string;
+}
+
 export interface TagProps {
   $tag: string;
 }

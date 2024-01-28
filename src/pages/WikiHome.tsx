@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { WikiData } from "../utils/types";
+import { formatDate } from "../utils/utils";
 import Sidebar from "../components/Sidebar";
 import WikiList from "../components/WikiList";
 import Footer from "../components/Footer";
@@ -41,26 +42,6 @@ function WikiHome() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
-  const formatDate = (data: WikiData[] | null) => {
-    if (!data) {
-      return [];
-    }
-
-    const formattedData = data.map((wiki) => {
-      const dateParts = wiki.date.split(/[-T:Z]/);
-      const formattedDate = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]} ${dateParts[3]}:${dateParts[4]}`;
-
-      const editDateParts = wiki.editDate.split(/[-T:Z]/);
-      const formattedEditDate = `${editDateParts[0]}-${editDateParts[1]}-${editDateParts[2]} ${editDateParts[3]}:${editDateParts[4]}`;
-      return {
-        ...wiki,
-        date: formattedDate,
-        editDate: formattedEditDate,
-      };
-    });
-    return formattedData;
   };
 
   return (

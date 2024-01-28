@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { WikiData } from "../utils/types";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { WikiData } from "../utils/types";
 import MockApi from "../utils/mockApi";
 const mockApi = new MockApi();
 
@@ -41,14 +41,18 @@ function Footer({
   };
 
   const handleDeleteData = async () => {
-    try {
-      await mockApi.delete({ idList: selectedWikis });
-      setSelectedWikis([]);
+    const isConfirmed = window.confirm("선택한 항목을 삭제하시겠습니까?");
 
-      const refreshData = jsonData.filter((wiki) => !selectedWikis.includes(wiki.id));
-      setJsonData(refreshData);
-    } catch (error) {
-      console.error("Delete failed:", error);
+    if (isConfirmed) {
+      try {
+        await mockApi.delete({ idList: selectedWikis });
+        setSelectedWikis([]);
+
+        const refreshData = jsonData.filter((wiki) => !selectedWikis.includes(wiki.id));
+        setJsonData(refreshData);
+      } catch (error) {
+        console.error("Error delete data:", error);
+      }
     }
   };
 

@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { PostData, UpdateData } from "../utils/types";
-import MockApi from "../utils/mockApi";
 import { getCurrentDate } from "../utils/utils";
+import MockApi from "../utils/mockApi";
 const mockApi = new MockApi();
 
 interface BottomProps {
@@ -48,7 +48,7 @@ function WikiBottom({ pageType, postData, setPostData, updateData, setUpdateData
         navigate(-1);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error post data:", error);
     }
   };
 
@@ -75,10 +75,10 @@ function WikiBottom({ pageType, postData, setPostData, updateData, setUpdateData
 
       if (response.data && setUpdateData) {
         setUpdateData(response.data);
-        navigate("/wikiDetail", { state: { item: response.data } });
+        navigate(`/wikiDetail/${updateData.id}`);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error update data:", error);
     }
   };
 

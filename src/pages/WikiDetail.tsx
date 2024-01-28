@@ -1,34 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
-import { TagProps } from "../utils/types";
+import { useParams } from "react-router-dom";
 import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import { TagProps, WikiData } from "../utils/types";
 import SideDetail from "../components/SideDetail";
+import MockApi from "../utils/mockApi";
+const mockApi = new MockApi();
+import { RxRocket } from "react-icons/rx";
 
 function WikiDetail() {
-  const location = useLocation();
-  const wikiData = location.state?.item;
+  const { wikiId } = useParams();
+  const [wikiData, setWikiData] = useState<WikiData | null>(null);
 
-  return (
-    <Container>
-      <LabelContainer $tag={wikiData.tag}>
-        <WikiLevel $tag={wikiData.tag}>{wikiData.level}</WikiLevel>
-        <WikiTitle>{wikiData.title}</WikiTitle>
-      </LabelContainer>
-      <ContentsContainer>
-        <TextContainer>
-          <WikiSubTitle>{wikiData.subTitle}</WikiSubTitle>
-          <EditorContainer>
-            <Viewer initialValue={wikiData.content} />
-          </EditorContainer>
-        </TextContainer>
-        <SideContainer>
-          <SideDetail wikiData={wikiData} />
-        </SideContainer>
-      </ContentsContainer>
-    </Container>
-  );
+  useEffect(() => {
+    const fetchWikiData = async () => {
+      try {
+        const response = await mockApi.getById(Number(wikiId));
+        if (response.data) {
+          const wikiData = response.data;
+
+          const allWikisResponse = await mockApi.get();
+          if (allWikisResponse.data) {
+            const allWikis = allWikisResponse.data;
+            let updatedContent = wikiData.content;
+
+            //! 링크로 변환
+            allWikis.forEach((otherWiki) => {
+              if (wikiData.id !== otherWiki.id && updatedContent.includes(otherWiki.title)) {
+                const link = `[${otherWiki.title}](http://localhost:3000/wikiDetail/${otherWiki.id})`;
+                updatedContent = updatedContent.replace(new RegExp(otherWiki.title, "g"), link);
+              }
+            });
+
+            setWikiData({ ...wikiData, content: updatedContent });
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching wiki data:", error);
+      }
+    };
+    if (wikiId) fetchWikiData();
+  }, [wikiId]);
+
+  if (wikiData) {
+    return (
+      <Container>
+        <LabelContainer $tag={wikiData.tag}>
+          <WikiLevel $tag={wikiData.tag}>{wikiData.level}</WikiLevel>
+          <WikiTitle>{wikiData.title}</WikiTitle>
+        </LabelContainer>
+        <ContentsContainer>
+          <TextContainer>
+            <WikiSubTitle>{wikiData.subTitle}</WikiSubTitle>
+            <EditorContainer>
+              <Viewer initialValue={wikiData.content} />
+            </EditorContainer>
+          </TextContainer>
+          <SideContainer>
+            <SideDetail wikiData={wikiData} />
+          </SideContainer>
+        </ContentsContainer>
+      </Container>
+    );
+  } else {
+    return (
+      <NoData>
+        <IconWrapper>
+          <RxRocket />
+        </IconWrapper>
+        Loading...
+      </NoData>
+    );
+  }
 }
 
 export default WikiDetail;
@@ -181,4 +225,20 @@ const EditorContainer = styled.div`
   padding: 2rem;
   width: 100%;
   height: 100%;
+`;
+const NoData = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.6rem;
+  color: var(--black-200);
+`;
+const IconWrapper = styled.span`
+  display: flex;
+  margin-bottom: 2rem;
+  font-size: 5.5rem;
+  color: var(--black-150);
 `;

@@ -28,18 +28,6 @@ class MockApi {
     }
   }
 
-  // #getLocalDate() {
-  //   const currentDate = new Date();
-  //   const year = currentDate.getFullYear();
-  //   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-  //   const day = currentDate.getDate().toString().padStart(2, "0");
-  //   const hours = currentDate.getHours().toString().padStart(2, "0");
-  //   const minutes = currentDate.getMinutes().toString().padStart(2, "0");
-  //   const seconds = currentDate.getSeconds().toString().padStart(2, "0");
-
-  //   return `${year}-${Number(month) < 10 ? "0" + month : month}-${day}T${hours}:${minutes}:${seconds}Z`;
-  // }
-
   //* CREATE api
   async post({ title, subTitle, content, tag, level }: PostData): Promise<ApiResponse<WikiData>> {
     const result: ApiResponse<WikiData> = {
@@ -97,7 +85,7 @@ class MockApi {
     try {
       if (isNaN(id)) {
         result.status = 500;
-        throw new Error(`Invalid input id: ${id}`);
+        throw new Error(`유효한 id(${id})가 아닙니다!`);
       }
       const dataIndex = this.#db.wikiData.findIndex((v) => v.id === id);
 
@@ -134,7 +122,7 @@ class MockApi {
       const filteredData = this.#db.wikiData.filter((v) => !tempArray.includes(v.id));
       if (filteredData.length === this.#db.wikiData.length) {
         result.status = 500;
-        throw new Error(`Cannot read id: ${tempArray.join(", ")}`);
+        throw new Error(`id: ${tempArray.join(", ")} 를 읽을 수 없습니다.`);
       }
       this.#db.wikiData = filteredData;
       this.#setResultSuccess(result, this.#db.wikiData);
@@ -142,6 +130,28 @@ class MockApi {
       console.error(error);
       this.#setResultFail(result);
       return result;
+    }
+    return result;
+  }
+
+  //* 특정 데이터 조회 api
+  async getById(id: number): Promise<ApiResponse<WikiData>> {
+    const result: ApiResponse<WikiData> = {
+      data: null,
+      status: null,
+    };
+
+    try {
+      const dataIndex = this.#db.wikiData.findIndex((v) => v.id === id);
+      if (dataIndex === -1) {
+        result.status = 404;
+        throw new Error(`해당 id(${id})를 가진 데이터가 없습니다!`);
+      }
+      const dataItem = this.#db.wikiData[dataIndex];
+      this.#setResultSuccess(result, dataItem);
+    } catch (error) {
+      console.error(error);
+      this.#setResultFail(result);
     }
     return result;
   }

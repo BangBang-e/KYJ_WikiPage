@@ -40,7 +40,7 @@ function WikiHome() {
         setJsonData(formattedData);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetch data:", error);
     }
   };
 

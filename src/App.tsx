@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<WikiHome />} />
         <Route path="/wikiAdd" element={<WikiAdd />} />
-        <Route path="/wikiDetail" element={<WikiDetail />} />
+        <Route path="/wikiDetail/:wikiId" element={<WikiDetail />} />
         <Route path="/wikiEdit" element={<WikiEdit />} />
       </Route>
     </Routes>

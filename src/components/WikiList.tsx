@@ -37,8 +37,8 @@ function WikiList({
     }
   };
 
-  const onClickContent = (item: WikiData) => {
-    navigate(`/wikiDetail`, { state: { item } });
+  const onClickContent = (wikiId: number) => {
+    navigate(`/wikiDetail/${wikiId}`);
   };
 
   return (
@@ -50,7 +50,7 @@ function WikiList({
           <UlItems>
             {currentData.map((item) => (
               <LiItem key={item.id}>
-                <Thumbnail onClick={() => onClickContent(item)} $tag={item.tag}>
+                <Thumbnail onClick={() => onClickContent(item.id)} $tag={item.tag}>
                   <WikiTitle>{item.title}</WikiTitle>
                   <WikiLevel>
                     <Level $tag={item.tag}>{item.level}</Level>
@@ -229,6 +229,7 @@ const WikiSubTitle = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2rem;
   margin: 0.4rem 0 0.4rem 0.6rem;
   font-size: 1rem;
 `;

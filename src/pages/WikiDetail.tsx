@@ -55,7 +55,13 @@ const LabelContainer = styled.article<TagProps>`
   width: 100%;
   height: 180px;
   border-radius: 16px;
-  background-color: ${(props) => getThumbnailColor(props.$tag)};
+  background: ${(props) => getThumbnailColor(props.$tag)};
+  transition: 0.2s;
+  @media (max-width: 768px) {
+    padding-bottom: 1rem;
+    height: 140px;
+    transition: 0.2s;
+  }
 `;
 const getThumbnailColor = (tag: string) => {
   switch (tag) {

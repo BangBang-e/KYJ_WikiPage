@@ -75,7 +75,7 @@ const SidebarContainer = styled.aside`
   transition: 0.2s;
   @media (max-width: 768px) {
     flex-direction: row;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     width: 100%;
     height: 3.5rem;
     border-right: 0;

@@ -9,6 +9,7 @@ const mockApi = new MockApi();
 
 interface FooterProps {
   filteredData: WikiData[];
+  jsonData: WikiData[];
   setJsonData: React.Dispatch<React.SetStateAction<WikiData[]>>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -19,6 +20,7 @@ interface FooterProps {
 
 function Footer({
   filteredData,
+  jsonData,
   setJsonData,
   page,
   setPage,
@@ -43,7 +45,7 @@ function Footer({
       await mockApi.delete({ idList: selectedWikis });
       setSelectedWikis([]);
 
-      const refreshData = filteredData.filter((wiki) => !selectedWikis.includes(wiki.id));
+      const refreshData = jsonData.filter((wiki) => !selectedWikis.includes(wiki.id));
       setJsonData(refreshData);
     } catch (error) {
       console.error("Delete failed:", error);
@@ -91,7 +93,7 @@ const FooterContainer = styled.footer`
   width: 100%;
   height: 130px;
   border-top: 1.4px solid var(--black-075);
-  background-color: var(--black-050);
+  background-color: var(--black-025);
   z-index: 20;
 `;
 const ButtonContainer = styled.div`
@@ -104,7 +106,7 @@ const Button = styled.button`
   font-size: 1.1rem;
   border-radius: 4px;
   border: 1.6px solid var(--black-150);
-  background-color: var(--black-050);
+  background-color: var(--black-025);
   cursor: pointer;
   &:hover {
     background-color: var(--black-075);

@@ -12,9 +12,19 @@ interface WikiListProps {
   selectedWikis: number[];
   setSelectedWikis: React.Dispatch<React.SetStateAction<number[]>>;
   selectedTag: string;
+  selectedLevel: string;
+  setSelectedLevel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function WikiList({ filteredData, currentData, selectedWikis, setSelectedWikis, selectedTag }: WikiListProps) {
+function WikiList({
+  filteredData,
+  currentData,
+  selectedWikis,
+  setSelectedWikis,
+  selectedTag,
+  selectedLevel,
+  setSelectedLevel,
+}: WikiListProps) {
   const navigate = useNavigate();
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, wikiId: number) => {
@@ -34,7 +44,7 @@ function WikiList({ filteredData, currentData, selectedWikis, setSelectedWikis, 
   return (
     <ListContainer>
       <Breadcrumb selectedTag={selectedTag} />
-      <FilterController filteredData={filteredData} />
+      <FilterController filteredData={filteredData} selectedLevel={selectedLevel} setSelectedLevel={setSelectedLevel} />
       <List>
         {currentData.length ? (
           <UlItems>
@@ -96,7 +106,7 @@ const ListContainer = styled.section`
 const List = styled.article`
   display: flex;
   flex-direction: column;
-  margin-top: 160px;
+  margin: 160px 0 50px 0;
   padding: 0.5rem 5rem 1rem 2rem;
   width: 100%;
   height: 100%;
@@ -115,7 +125,7 @@ const LiItem = styled.li`
   display: flex;
   margin-bottom: 0.95rem;
   width: 100%;
-  height: 18%;
+  height: 100px;
 `;
 const Thumbnail = styled.div<TagProps>`
   display: flex;
@@ -124,7 +134,7 @@ const Thumbnail = styled.div<TagProps>`
   width: 45%;
   height: 100%;
   border-radius: 8px;
-  background-color: ${(props) => getThumbnailColor(props.$tag)};
+  background: ${(props) => getThumbnailColor(props.$tag)};
   cursor: pointer;
 `;
 const getThumbnailColor = (tag: string) => {

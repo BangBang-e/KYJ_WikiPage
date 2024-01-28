@@ -14,8 +14,13 @@ function WikiHome() {
   const [page, setPage] = useState(1);
   const [selectedWikis, setSelectedWikis] = useState<number[]>([]);
   const [selectedTag, setSelectedTag] = useState("전체 위키");
+  const [selectedLevel, setSelectedLevel] = useState("");
 
-  const filteredData = selectedTag === "전체 위키" ? jsonData : jsonData.filter((item) => item.tag === selectedTag);
+  const filteredData = jsonData.filter((item) => {
+    const tagMatch = selectedTag === "전체 위키" || item.tag === selectedTag;
+    const levelMatch = !selectedLevel || item.level === selectedLevel;
+    return tagMatch && levelMatch;
+  });
 
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -61,17 +66,20 @@ function WikiHome() {
   return (
     <Container>
       <ContentsContainer>
-        <Sidebar setPage={setPage} setSelectedTag={setSelectedTag} />
+        <Sidebar setPage={setPage} setSelectedTag={setSelectedTag} setSelectedWikis={setSelectedWikis} />
         <WikiList
           filteredData={filteredData}
           currentData={currentData}
           selectedWikis={selectedWikis}
           setSelectedWikis={setSelectedWikis}
           selectedTag={selectedTag}
+          selectedLevel={selectedLevel}
+          setSelectedLevel={setSelectedLevel}
         />
       </ContentsContainer>
       <Footer
         filteredData={filteredData}
+        jsonData={jsonData}
         setJsonData={setJsonData}
         page={page}
         setPage={setPage}

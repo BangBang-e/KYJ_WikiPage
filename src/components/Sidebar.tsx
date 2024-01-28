@@ -8,15 +8,17 @@ import { GoDatabase } from "react-icons/go";
 interface SidebarProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setSelectedTag: (tag: string) => void;
+  setSelectedWikis: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-function Sidebar({ setPage, setSelectedTag }: SidebarProps) {
+function Sidebar({ setPage, setSelectedTag, setSelectedWikis }: SidebarProps) {
   const [activeTag, setActiveTag] = useState("전체 위키");
 
   const handleTagClick = (tag: string) => {
     setActiveTag(tag);
     setSelectedTag(tag);
     setPage(1);
+    setSelectedWikis([]);
   };
 
   return (

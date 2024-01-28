@@ -42,10 +42,10 @@
   --mint-btn-hover: hsl(181, 87%, 39%);
   --mint-btn-active: hsl(181, 94%, 33%);
 
-  --thumbnail-bg-1: hsl(210, 18%, 80%);
-  --thumbnail-bg-2: hsl(351, 70%, 88%);
-  --thumbnail-bg-3: hsl(170, 48%, 81%);
-  --thumbnail-bg-4: hsl(216, 67%, 87%);
+  --thumbnail-bg-1: linear-gradient(45deg, hsl(210, 39%, 93%), hsl(210, 10%, 58%));
+  --thumbnail-bg-2: linear-gradient(45deg, hsl(352, 36%, 95%), hsl(352, 72%, 78%));
+  --thumbnail-bg-3: linear-gradient(45deg, hsl(170, 33%, 94%), hsl(170, 50%, 70%));
+  --thumbnail-bg-4: linear-gradient(45deg, hsl(220, 43%, 95%), hsl(220, 62%, 72%));
   --level-bg-1: hsl(210, 10%, 41%);
   --level-bg-2: hsl(350, 75%, 60%);
   --level-bg-3: hsl(170, 52%, 44%);

@@ -1,19 +1,37 @@
 import React from "react";
 import styled from "styled-components";
 import { WikiData } from "../utils/types";
-import LevelFilter from "./LevelFilter";
 
 interface FilterProps {
   filteredData: WikiData[];
+  selectedLevel: string;
+  setSelectedLevel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function FilterController({ filteredData }: FilterProps) {
+function FilterController({ filteredData, selectedLevel, setSelectedLevel }: FilterProps) {
+  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLevel(event.target.value);
+  };
+
   return (
     <FilterContainer>
       <QuantityWrapper>게시물 수: {filteredData.length}개</QuantityWrapper>
-      <DropDownContainer>
-        <LevelFilter />
-      </DropDownContainer>
+      <SelectContainer>
+        <LevelFilter onChange={handleLevelChange} value={selectedLevel}>
+          <option key="all" value="">
+            모든 레벨
+          </option>
+          <option key="easy" value="초급">
+            초급
+          </option>
+          <option key="normal" value="중급">
+            중급
+          </option>
+          <option key="hard" value="고급">
+            고급
+          </option>
+        </LevelFilter>
+      </SelectContainer>
     </FilterContainer>
   );
 }
@@ -46,7 +64,24 @@ const QuantityWrapper = styled.div`
   font-size: 0.9rem;
   font-weight: 400;
 `;
-const DropDownContainer = styled.div`
+const SelectContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+const LevelFilter = styled.select`
+  margin: 0;
+  min-width: 0;
+  display: block;
+  width: 100%;
+  padding: 8px 8px;
+  font-size: inherit;
+  line-height: inherit;
+  border: 1px solid var(--black-100);
+  border-radius: 4px;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  &:focus {
+    border-color: var(--black-200);
+  }
 `;
